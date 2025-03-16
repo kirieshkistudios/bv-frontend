@@ -28,6 +28,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@sveltejs/adapter-node": "^5.2.12",
 		"@yandex/ymaps3-clusterer": "^0.0.10",
 		"leaflet": "^1.9.4",
 		"maplibre-gl": "^5.1.1",
