@@ -39,6 +39,7 @@ function calculateStatus(freeSpots: number, capacity: number): ParkingSpotMarker
 }
 
 export async function selectMarker(marker: ParkingSpotMarker) {
+    await clearSelection();
     loading.set(true);
     selectedMarker.set(marker);
 
@@ -69,4 +70,5 @@ export function clearSelection() {
     if (updateInterval) clearInterval(updateInterval);
     selectedMarker.set(null);
     markerDetails.set(null);
+
 }

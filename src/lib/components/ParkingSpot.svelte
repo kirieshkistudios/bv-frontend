@@ -54,20 +54,9 @@
 		position: relative;
 		cursor: pointer;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-		transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		perspective-origin: center;
-		-webkit-transition: width max-height 0.1s ease-in-out;
-		-moz-transition: width 0.1s ease-in-out;
-		-o-transition: width 0.1s ease-in-out;
-		transition: width 0.1s ease-in-out;
-	}
-
-	.traffic-sign:active {
-		transform: scale(1.1) rotateX(15deg);
-		z-index: 1000;
 	}
 
 	.inner-circle {

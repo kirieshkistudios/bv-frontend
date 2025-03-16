@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { slide, fade } from 'svelte/transition';
+	import { slide, fade, scale } from 'svelte/transition';
 	import { isPopupOpen, loading, markerDetails, clearSelection } from '$lib/stores/parking.store';
 	import type { ParkingLotDetails } from '$lib/types';
+	import { cubicIn, cubicOut } from 'svelte/easing';
 
 	let placeholder: string = 'Search...';
 	let query = $state('');
@@ -57,7 +58,7 @@
 
 <div
 	class="fixed z-50 transition-all duration-300
-            {isPopupOpen && isMobile ? 'top-4' : 'bottom-4'} search-container right-4
+            {isMobile ? 'bottom-12' : 'top-4'} search-container right-4
             left-4 md:top-4 md:right-auto md:bottom-auto
             md:w-96"
 	in:slide={{ delay: 100, duration: 300 }}
@@ -96,7 +97,11 @@
 	</div> -->
 
 	{#if $isPopupOpen}
-		<div class="popup-container">
+		<div
+			class="popup-container z-30 rounded-md shadow-xl"
+			in:scale={{ opacity: 0, start: 0.9, easing: cubicOut }}
+			out:slide={{ duration: 100, delay: 0 }}
+		>
 			{#if $loading}
 				<div class="loader">
 					<div class="pulse" />
@@ -104,22 +109,25 @@
 					<div class="pulse delay-300" />
 				</div>
 			{:else if $markerDetails}
-				<div class="marker-info">
-					<button on:click={clearSelection} class="close-button">✕</button>
-
-					<h3 class="mb-2">{$markerDetails.name}</h3>
+				<div class="marker-info z-50" in:slide>
+					<div class="flex flex-row items-start justify-between">
+						<h2 class="mb-2 font-bold">{$markerDetails.name}</h2>
+						<button onclick={clearSelection} class="close-button mb-2 font-extrabold"
+							>✕</button
+						>
+					</div>
 					<h4 class="location">📍 {$markerDetails.location_name}</h4>
 
 					<div class="stats">
 						<div class="stat">
-							<span class="label">Свободно:</span>
-							<span class="value"
+							<span class="label font-bold">Свободно:</span>
+							<span class="value font-bold"
 								>{$markerDetails.free_spots}/{$markerDetails.capacity}</span
 							>
 						</div>
 						<div class="stat">
-							<span class="label">Статус:</span>
-							<span class="status-badge {$markerDetails.status}">
+							<span class="label font-bold">Статус:</span>
+							<span class="status-badge font-extrabold {$markerDetails.status}">
 								{{
 									occupied: 'Занято',
 									partially: 'Частично',
@@ -139,7 +147,6 @@
 
 <style>
 	.popup-container {
-		backdrop-filter: blur(10px);
 		background: rgba(255, 255, 255, 0.95);
 		padding: 1rem;
 		box-shadow: #4b5563;
@@ -171,7 +178,6 @@
 		border-radius: 9999px;
 		font-size: 0.8rem;
 		text-transform: uppercase;
-		font-weight: 500;
 	}
 
 	.status-badge.occupied {
