@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Map from '$lib/components/Map.svelte';
 	import SearchBar from '$lib/components/SearchBar.svelte';
+	import { YMAPS_API } from '$lib/config';
 	import { parkingSpots, initParkingSpots, cleanupParkingSpots } from '$lib/stores/spots.store';
 	import type { ParkingSpotMarker } from '$lib/types';
 	import { onMount } from 'svelte';
@@ -25,7 +26,7 @@
 </script>
 
 <Map
-	apiKey="df084fff-df2c-414f-8382-2a41590c2e2a"
+	apiKey={YMAPS_API}
 	center={[37.588144, 55.733842]}
 	zoom={10}
 	spots={$parkingSpots}
